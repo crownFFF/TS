@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>TypeScript</title>
+  <style>
+    /* From extension vscode.github */
+    /*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+    .vscode-dark img[src$=\#gh-light-mode-only],
+    .vscode-light img[src$=\#gh-dark-mode-only],
+    .vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+    .vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+      display: none;
+    }
+  </style>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  </style>
+  <style>
+    .task-list-item {
+      list-style-type: none;
+    }
+
+    .task-list-item-checkbox {
+      margin-left: -20px;
+      vertical-align: middle;
+      pointer-events: none;
+    }
+  </style>
+  <style>
+    :root {
+      --color-note: #0969da;
+      --color-tip: #1a7f37;
+      --color-warning: #9a6700;
+      --color-severe: #bc4c00;
+      --color-caution: #d1242f;
+      --color-important: #8250df;
+    }
+  </style>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-note: #2f81f7;
+        --color-tip: #3fb950;
+        --color-warning: #d29922;
+        --color-severe: #db6d28;
+        --color-caution: #f85149;
+        --color-important: #a371f7;
+      }
+    }
+  </style>
+  <style>
+    .markdown-alert {
+      padding: 0.5rem 1rem;
+      margin-bottom: 16px;
+      color: inherit;
+      border-left: .25em solid #888;
+    }
+
+    .markdown-alert>:first-child {
+      margin-top: 0
+    }
+
+    .markdown-alert>:last-child {
+      margin-bottom: 0
+    }
+
+    .markdown-alert .markdown-alert-title {
+      display: flex;
+      font-weight: 500;
+      align-items: center;
+      line-height: 1
+    }
+
+    .markdown-alert .markdown-alert-title .octicon {
+      margin-right: 0.5rem;
+      display: inline-block;
+      overflow: visible !important;
+      vertical-align: text-bottom;
+      fill: currentColor;
+    }
+
+    .markdown-alert.markdown-alert-note {
+      border-left-color: var(--color-note);
+    }
+
+    .markdown-alert.markdown-alert-note .markdown-alert-title {
+      color: var(--color-note);
+    }
+
+    .markdown-alert.markdown-alert-important {
+      border-left-color: var(--color-important);
+    }
+
+    .markdown-alert.markdown-alert-important .markdown-alert-title {
+      color: var(--color-important);
+    }
+
+    .markdown-alert.markdown-alert-warning {
+      border-left-color: var(--color-warning);
+    }
+
+    .markdown-alert.markdown-alert-warning .markdown-alert-title {
+      color: var(--color-warning);
+    }
+
+    .markdown-alert.markdown-alert-tip {
+      border-left-color: var(--color-tip);
+    }
+
+    .markdown-alert.markdown-alert-tip .markdown-alert-title {
+      color: var(--color-tip);
+    }
+
+    .markdown-alert.markdown-alert-caution {
+      border-left-color: var(--color-caution);
+    }
+
+    .markdown-alert.markdown-alert-caution .markdown-alert-title {
+      color: var(--color-caution);
+    }
+  </style>
+
+</head>
+
+<body class="vscode-body vscode-light">
+  <ul>
+    <li><a href="#1typescript-%E4%BB%8B%E7%B4%B9">1.TypeScript 介紹</a>
+      <ul>
+        <li><a
+            href="#typescript-%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E7%82%BA-js-%E6%B7%BB%E5%8A%A0%E9%A1%9E%E5%9E%8B%E6%94%AF%E6%8C%81">TypeScript
+            為什麼要為 JS 添加類型支持</a></li>
+      </ul>
+    </li>
+    <li><a href="#2typescript-%E5%AE%89%E8%A3%9D">2.TypeScript 安裝</a>
+      <ul>
+        <li><a href="#2-1typescript-%E5%AE%89%E8%A3%9D-ts-%E5%B7%A5%E5%85%B7%E5%8C%85">2-1.TypeScript 安裝 TS 工具包</a></li>
+        <li><a href="#2-2%E7%B7%A8%E8%AD%AF%E4%B8%A6%E9%81%8B%E8%A1%8C-ts-%E4%BB%A3%E7%A2%BC">2-2.編譯並運行 TS 代碼</a></li>
+        <li><a href="#2-3%E7%B0%A1%E5%8C%96%E9%81%8B%E8%A1%8C-ts-%E6%AD%A5%E9%A9%9F">2-3.簡化運行 TS 步驟</a></li>
+      </ul>
+    </li>
+    <li><a href="#3typescript-%E5%B8%B8%E7%94%A8%E9%A1%9E%E5%9E%8B">3.TypeScript 常用類型</a>
+      <ul>
+        <li><a href="#3-1%E9%A1%9E%E5%9E%8B%E8%A8%BB%E8%A7%A3">3-1.類型註解</a></li>
+        <li><a href="#3-2%E5%B8%B8%E7%94%A8%E5%9F%BA%E7%A4%8E%E9%A1%9E%E5%9E%8B%E6%A6%82%E8%BF%B0">3-2.常用基礎類型概述</a></li>
+        <li><a href="#3-3%E5%8E%9F%E5%A7%8B%E9%A1%9E%E5%9E%8B">3-3.原始類型</a></li>
+        <li><a href="#3-4%E6%95%B8%E7%B5%84%E9%A1%9E%E5%9E%8B">3-4.數組類型</a></li>
+        <li><a href="#3-5%E9%A1%9E%E5%9E%8B%E5%88%A5%E5%90%8D">3-5.類型別名</a></li>
+        <li><a href="#3-6%E5%87%BD%E6%95%B8%E9%A1%9E%E5%9E%8B">3-6.函數類型</a></li>
+        <li><a href="#3-7%E5%B0%8D%E8%B1%A1%E9%A1%9E%E5%9E%8B">3-7.對象類型</a></li>
+        <li><a href="#3-8%E6%8E%A5%E5%8F%A3%E4%BB%8B%E9%9D%A2">3-8.接口(介面)</a></li>
+        <li><a href="#3-9%E5%85%83%E7%B5%84">3-9.元組</a></li>
+        <li><a href="#3-10%E9%A1%9E%E5%9E%8B%E6%8E%A8%E8%AB%96">3-10類型推論</a></li>
+        <li><a href="#3-11%E9%A1%9E%E5%9E%8B%E6%96%B7%E8%A8%80">3-11.類型斷言</a></li>
+        <li><a href="#3-12%E5%AD%97%E9%9D%A2%E9%87%8F%E9%A1%9E%E5%9E%8B">3-12.字面量類型</a></li>
+        <li><a href="#3-13%E6%9E%9A%E8%88%89">3-13.枚舉</a></li>
+        <li><a href="#3-14any%E9%A1%9E%E5%9E%8B">3-14.any類型</a></li>
+        <li><a href="#3-15typeof">3-15.typeof</a></li>
+      </ul>
+    </li>
+    <li><a href="#4typescript%E9%AB%98%E7%B4%9A%E9%A1%9E%E5%9E%8B">4.TypeScript高級類型</a>
+      <ul>
+        <li><a href="#4-1class%E9%A1%9E">4-1.class類</a></li>
+        <li><a href="#4-2%E9%A1%9E%E5%9E%8B%E5%85%BC%E5%AE%B9%E6%80%A7">4-2.類型兼容性</a></li>
+        <li><a href="#4-3%E4%BA%A4%E5%8F%89%E9%A1%9E%E5%9E%8B">4-3.交叉類型</a></li>
+        <li><a href="#4-4%E6%B3%9B%E5%9E%8B">4-4.泛型</a></li>
+        <li><a href="#4-5%E7%B4%A2%E5%BC%95%E7%B0%BD%E5%90%8D%E9%A1%9E%E5%9E%8B">4-5.索引簽名類型</a></li>
+        <li><a href="#4-6%E6%98%A0%E5%B0%84%E9%A1%9E%E5%9E%8B">4-6.映射類型</a></li>
+      </ul>
+    </li>
+    <li><a href="#5typescript%E9%A1%9E%E5%9E%8B%E8%81%B2%E6%98%8E%E6%96%87%E4%BB%B6">5.TypeScript類型聲明文件</a>
+      <ul>
+        <li><a href="#5-1ts%E4%B8%AD%E7%9A%84%E5%85%A9%E7%A8%AE%E6%96%87%E4%BB%B6%E9%A1%9E%E5%9E%8B">5-1.TS中的兩種文件類型</a>
+        </li>
+        <li><a
+            href="#5-2%E9%A1%9E%E5%9E%8B%E8%81%B2%E6%98%8E%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8%E8%AA%AA%E6%98%8E">5-2.類型聲明文件的使用說明</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <hr>
+  <h1 id="1typescript-介紹">1.TypeScript 介紹</h1>
+  <p>TypeScript 是 JS 的超集(JS 有的 TS 都有)<br>
+    TypeScript = Type + JavaScript(在 JS 基礎之上，為 JS 添加了類型支持)<br>
+    TypeScript 是微軟開發的開源編程語言，可以在任何運行 JS 的地方運行</p>
+  <h3 id="typescript-為什麼要為-js-添加類型支持">TypeScript 為什麼要為 JS 添加類型支持</h3>
+  <p>背景:JS 的類型系同存在'先天缺陷'，JS 代碼中絕大部分錯誤都是類型錯誤(UncaughtTypeError)<br>
+    從編成語言的動靜區分，TS 屬於靜態類型，JS 屬於動態類型</p>
+  <ul>
+    <li>靜態類型:編譯期做類型檢查</li>
+    <li>動態類型:執行期做類型檢查</li>
+  </ul>
+  <hr>
+  <h1 id="2typescript-安裝">2.TypeScript 安裝</h1>
+  <h3 id="2-1typescript-安裝-ts-工具包">2-1.TypeScript 安裝 TS 工具包</h3>
+  <ul>
+    <li>Node.js/瀏覽器，只認識 JS 代碼，不認識 TS，需要先將 TS 轉化成 JS 然後才能運行</li>
+    <li>安裝命令:npm install -g typescript</li>
+    <li>typescript 包:用來編譯 TS 代碼的包，提供 tsc 命令，實現 TS-&gt;JS 轉化</li>
+    <li>驗證是否安裝成功:tsc -v(查看 typescript 的版本)</li>
+  </ul>
+  <hr>
+  <h3 id="2-2編譯並運行-ts-代碼">2-2.編譯並運行 TS 代碼</h3>
+  <ul>
+    <li>創建.ts 文件</li>
+    <li>將 TS 編譯文 JS:在終端機輸入命令，tsc hello.ts(此時，在同級目錄中會出現一個同名的 JS 文件)</li>
+    <li>執行 JS 代碼:在終端中輸入命令，node hello.js</li>
+  </ul>
+  <p><strong>說明</strong>:所有合法的 JS 代碼都是 TS 代碼，有 JS 基礎只需要學習 TS 類型即可<br>
+    <strong>注意</strong>:由 TS 編譯生成的 JS 文件，代碼中就沒有類型信息了
+  </p>
+  <hr>
+  <h3 id="2-3簡化運行-ts-步驟">2-3.簡化運行 TS 步驟</h3>
+  <ul>
+    <li>簡化方式:使用 ts-node 包,直接在 hode.js 中執行 TS 代碼</li>
+    <li>安裝命令:npm i -g ts-node(<strong>版本過高會無法執行-npm i -g ts-node@8.5.4</strong>)</li>
+    <li>使用方式:ts-node hello.ts</li>
+  </ul>
+  <p><strong>解釋</strong>:ts-node 命令會在內部將 TS-&gt;JS,然後在運行 JS 代碼</p>
+  <hr>
+  <h1 id="3typescript-常用類型">3.TypeScript 常用類型</h1>
+  <p>概述:</p>
+  <ul>
+    <li>TypeScript 是 JS 的超集，TS 提供了 JS 所有功能，並且額外增加 類型系統</li>
+    <li>JS 有類型(比如 number,string 等)，但 JS 不會檢查變量類型是否變化，TS 會檢查</li>
+  </ul>
+  <hr>
+  <h3 id="3-1類型註解">3-1.類型註解</h3>
+  <p><code>let age: number = 19</code>
+    <strong>說明</strong>:代碼中的:number就是類型註解
+    作用:為變量添加類型約束，比如上述代碼中，約定變量age的類型為number(數值類型)
+    <strong>解釋</strong>:約定了什麼類型，就只能給變量賦值該類型的值
+  </p>
+  <hr>
+  <h3 id="3-2常用基礎類型概述">3-2.常用基礎類型概述</h3>
+  <p>可以將TS中常用的基礎類型細分為兩類</p>
+  <ul>
+    <li><strong>1.JS已有類型</strong>
+      <ul>
+        <li>原始類型:<strong>number / string / boolean / null / undefined / symbol</strong></li>
+        <li>對象類型:<strong>object</strong>(包括對象,數組,函數等)</li>
+      </ul>
+    </li>
+    <li><strong>2.TS新增類型</strong>
+      <ul>
+        <li>聯合類型,自定義類型(類型別名),接口,元組,字面量類型,枚舉,void,any等</li>
+      </ul>
+    </li>
+  </ul>
+  <hr>
+  <h3 id="3-3原始類型">3-3.原始類型</h3>
+  <p>特點:簡單 這些類型完全按照JS中類型的名稱來書寫</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">18</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">myName</span>: <span class="hljs-built_in">string</span> = <span class="hljs-string">&#x27;123&#x27;</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">isLoading</span>: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">true</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">a</span>: <span class="hljs-literal">null</span> = <span class="hljs-literal">null</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">b</span>: <span class="hljs-literal">undefined</span> = <span class="hljs-literal">undefined</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">s</span>: <span class="hljs-built_in">symbol</span> = <span class="hljs-title class_">Symbol</span>()
+</code></pre>
+  <hr>
+  <h3 id="3-4數組類型">3-4.數組類型</h3>
+  <p>對象類型:object(包括對象,數組,函數等)
+    特點:對象類型，在TS中更加細化，每個具體的對象都有自己的類型語法
+    數組類型的兩種語法(推薦使用number[]寫法)</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">number</span>: <span class="hljs-built_in">number</span>[] = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">let</span> <span class="hljs-attr">strArr</span>: <span class="hljs-built_in">string</span>[] = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>]
+<span class="hljs-keyword">let</span> <span class="hljs-attr">numArr</span>: <span class="hljs-title class_">Array</span>&lt;<span class="hljs-built_in">number</span>&gt; = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">let</span> <span class="hljs-attr">string</span>: <span class="hljs-title class_">Array</span>&lt;<span class="hljs-built_in">string</span>&gt; = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>]
+</code></pre>
+  <p>需求:數組中既有number又有string類型
+    添加小括號,表示arr首先是數組,然後數組內能夠出現number或string類型的元素</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">arr</span>: (<span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span>)[] = [<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&#x27;b&#x27;</span>]
+</code></pre>
+  <p>不添加小括號,表示arr既可以是number類型,又可以是string[]類型</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">arr1</span>: <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>[] = <span class="hljs-number">123</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">arr2</span>: <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>[] = [<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>]
+</code></pre>
+  <ul>
+    <li><strong>解釋</strong>: | (豎線)在TS中叫做 聯合類型(由兩個或多個其他類型組成的類型,表示可以是這些類型中的任意一種)</li>
+    <li><strong>注意</strong>:這是TS中聯合類型的語法,只有一根豎線</li>
+  </ul>
+  <hr>
+  <h3 id="3-5類型別名">3-5.類型別名</h3>
+  <p>類型別名(自定義類型):為任意類型起別名
+    使用場景:當同一種類型(複雜)被多次使用時，可以通過類型別名，簡化該類型的使用</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">CustonArray</span> = (<span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>)[]
+<span class="hljs-keyword">let</span> <span class="hljs-attr">arr3</span>: <span class="hljs-title class_">CustonArray</span> = [<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-number">3</span>, <span class="hljs-string">&#x27;b&#x27;</span>]
+<span class="hljs-keyword">let</span> <span class="hljs-attr">arr4</span>: <span class="hljs-title class_">CustonArray</span> = [<span class="hljs-number">2</span>, <span class="hljs-string">&#x27;x&#x27;</span>, <span class="hljs-number">4</span>, <span class="hljs-string">&#x27;y&#x27;</span>]
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.使用type關鍵字來創建類型別名</li>
+    <li>2.類型別名,可以是任何合法的變量名稱</li>
+    <li>3.創建類型別名後,直接使用該類型別名作為變量的類型名稱即可</li>
+  </ul>
+  <hr>
+  <h3 id="3-6函數類型">3-6.函數類型</h3>
+  <p>函數類型實際上指的是:函數參數和返回值的類型
+    為函數指定類型的兩種方式:</p>
+  <ul>
+    <li>1.單獨指定參數,返回值的類型
+      <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">num1: <span class="hljs-built_in">number</span>, num2: <span class="hljs-built_in">number</span></span>): <span class="hljs-built_in">number</span> {
+<span class="hljs-keyword">return</span> num1 + num2
+}
+<span class="hljs-keyword">const</span> add1 = (<span class="hljs-attr">num1</span>: <span class="hljs-built_in">number</span>, <span class="hljs-attr">num2</span>: <span class="hljs-built_in">number</span>): <span class="hljs-function"><span class="hljs-params">number</span> =&gt;</span> {
+<span class="hljs-keyword">return</span> num1 + num2
+}
+</code></pre>
+    </li>
+    <li>2.同時指定參數,返回值的類型
+      <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">const</span> <span class="hljs-attr">add3</span>: <span class="hljs-function">(<span class="hljs-params">num1: <span class="hljs-built_in">number</span>, num2: <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">number</span> = <span class="hljs-function">(<span class="hljs-params">num1, num2</span>) =&gt;</span> {
+<span class="hljs-keyword">return</span> num1 + num2
+}
+</code></pre>
+    </li>
+  </ul>
+  <p><strong>解釋</strong>:當函數作為表達式時,可以通過類似箭頭函數形式的語法來為函數添加類型
+    <strong>注意</strong>:這種形式只適用於函數表達式
+  </p>
+  <p>若函數沒有返回值,那麼函數返回值類型為:void</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">void</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(name);
+}
+</code></pre>
+  <p>使用函數時線某個功能時,參數可以傳也可以不傳,這種情況下,給函數參數指定類型時,就用到 可選參數
+    比如,數組的slice方法,可以slice(),也可以slice(1)或者slice(1,3)</p>
+  <pre><code class="language-typescript"><span class="hljs-attr">EX</span>:
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">mySlice</span>(<span class="hljs-params">start?: <span class="hljs-built_in">number</span>, end?: <span class="hljs-built_in">number</span></span>): <span class="hljs-built_in">void</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;起始:&#x27;</span>, start, <span class="hljs-string">&#x27;結束:&#x27;</span>, end);
+}
+</code></pre>
+  <p>可選參數:在可傳可不傳的參數名稱後面添加?(問號)
+    <strong>注意</strong>:可選參數只能出現在參數列表的最後，也就是說可選參數後面不能再出現必選參數
+  </p>
+  <hr>
+  <h3 id="3-7對象類型">3-7.對象類型</h3>
+  <p>JS中的對象是由屬性和方法構成的,而TS中對象的類型就是在描述對象的結構(有什麼類型的屬性和方法)
+    對象類型的寫法:</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">let</span> <span class="hljs-attr">person</span>: { <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>; <span class="hljs-title function_">sayHi</span>(): <span class="hljs-built_in">void</span> } = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jack&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+  <span class="hljs-title function_">sayHi</span>(<span class="hljs-params"></span>) { }
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.直接使用{}來描述對象結構，屬性採用 屬性名:類型 的形式,方法採用 方法名():返回值類型 的形式</li>
+    <li>2.如果方法有參數,就在方法名後面的小括號中指定參數類型(比如:sayHi(name:string):void)</li>
+    <li>3.在一行代碼中指定一個對象的多個類型時,使用;(分號)來分隔</li>
+  </ul>
+  <p>如果一行代碼只指定一個屬性類型(通過換行來分隔多個屬性類型),可以去掉;(分號)
+    方法的類型也可以使用箭頭函數形式(比如:{sayHi:()=&gt;:void})</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">person1</span>: {
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-attr">sayHi</span>: <span class="hljs-function">(<span class="hljs-params">name?: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>
+} = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jack&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">18</span>,
+  <span class="hljs-title function_">sayHi</span>(<span class="hljs-params"></span>) { }
+}
+</code></pre>
+  <p>對象中的屬性或方法,也是可選的，此時就用到 可選屬性
+    比如:在使用axios({...})時,如果發送GET請求,method屬性就可以省略</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">myAxios</span>(<span class="hljs-params">config: {
+  url: <span class="hljs-built_in">string</span>
+  method?: <span class="hljs-built_in">string</span>
+}</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(config);
+}
+</code></pre>
+  <p>可選屬性的語法與函數可選參數的語法一致,都使用?(問號)來表示</p>
+  <hr>
+  <h3 id="3-8接口介面">3-8.接口(介面)</h3>
+  <p>當一個對象類型被多次使用時,一般會使用接口(interface)來描述對象類型,達到復用的目的</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Iperson</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-title function_">sayHi</span>(): <span class="hljs-built_in">void</span>
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-attr">person2</span>: <span class="hljs-title class_">Iperson</span> = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Jack&#x27;</span>,
+  <span class="hljs-attr">age</span>: <span class="hljs-number">19</span>,
+  <span class="hljs-title function_">sayHi</span>(<span class="hljs-params"></span>) { }
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.使用interface關鍵字來聲明接口</li>
+    <li>2.接口名稱,可以是任意合法的變量名稱</li>
+    <li>3.聲明接口後,直接使用接口名稱作為變量類型</li>
+    <li>4.因為每一行只有一個屬性類型,因此屬性類型後沒有;(分號)</li>
+  </ul>
+  <p><strong>interface接口 與 type類型別名 對比:</strong></p>
+  <ul>
+    <li>相同點:都可以給對象指定類型</li>
+    <li>不同點:
+      <ul>
+        <li>接口:只能為對象指定類型</li>
+        <li>類型別名:不僅可以為對象指定類型,實際上可以為任意類型指定別名</li>
+      </ul>
+      <pre><code class="language-typescript"><span class="hljs-attr">interface</span>:
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Iperson1</span> {
+<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+<span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>
+<span class="hljs-title function_">sayHi</span>(): <span class="hljs-built_in">void</span>
+}
+<span class="hljs-keyword">type</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Iperson2</span> = {
+<span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+<span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>
+<span class="hljs-title function_">sayHi</span>(): <span class="hljs-built_in">void</span>
+}
+</code></pre>
+    </li>
+  </ul>
+  <p><strong>接口繼承</strong>
+    如果兩個接口之間有相同的屬性或方法,可以將公共的屬性或方法抽離出來,通過繼承來實現復用
+    比如:這兩個接口都有x,y兩個屬性</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Point2D</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Point3D</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }
+</code></pre>
+  <p>使用繼承的方式</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Point3D</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Point2D</span> { <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.使用extends(繼承)關鍵字實現了接口Point3D繼承Point2D</li>
+    <li>2.繼承後,Point3D就有了Point2D的所有屬性和方法(此時Point3D同時擁有x,y,z三個屬性)</li>
+  </ul>
+  <hr>
+  <h3 id="3-9元組">3-9.元組</h3>
+  <p>場景:該數組只有兩個元素，並且這兩個元素都是數值類型</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">let</span> <span class="hljs-attr">position</span>: <span class="hljs-built_in">number</span>[] = [<span class="hljs-number">39</span>, <span class="hljs-number">116</span>]
+</code></pre>
+  <p>使用number[]的缺點:不嚴謹,因為該類型的數組中可以出現任意多個數字</p>
+  <p><strong>使用元組(Tuple)</strong>
+    元組類型是另一種類型的數組,他確切知道包含多少元素,以及特定索引對應的類型</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">let</span> <span class="hljs-attr">position1</span>: [<span class="hljs-built_in">number</span>, <span class="hljs-built_in">number</span>] = [<span class="hljs-number">39</span>, <span class="hljs-number">116</span>]
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.元組類型可以確切的標記出有多少個元素,以及每個元素的類型</li>
+    <li>2.該示例中,元素有兩個元素,每個元素的類型都是number</li>
+  </ul>
+  <hr>
+  <h3 id="3-10類型推論">3-10類型推論</h3>
+  <p>TS中,某些沒有明確指出類型的地方,TS的類型推論機制會幫助提供類型
+    由於類型推論的存在,這些地方,類型註解可以省略不寫
+    發生類型推論的2種常見場景:</p>
+  <ul>
+    <li>1.變量聲明並初始化時
+      <pre><code class="language-typescript"><span class="hljs-keyword">let</span> age1 = <span class="hljs-number">18</span>   <span class="hljs-comment">//TS自動推斷出變量age1為number類型</span>
+age1 = <span class="hljs-number">20</span>      <span class="hljs-comment">//鼠標移入變量名稱age</span>
+</code></pre>
+    </li>
+    <li>2.決定函數返回值時
+      <pre><code class="language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">add4</span>(<span class="hljs-params">num1: <span class="hljs-built_in">number</span>, num2: <span class="hljs-built_in">number</span></span>) {
+<span class="hljs-keyword">return</span> num1 + num2
+}
+</code></pre>
+    </li>
+  </ul>
+  <p><strong>注意</strong>:這兩種情況下，可以省略不寫</p>
+  <hr>
+  <h3 id="3-11類型斷言">3-11.類型斷言</h3>
+  <p>類型斷言用來指定更具體的類型
+    比如:getElementById方法返回值的類型是HTMLElement,該類型包含所有標籤公共的屬性或方法,不包含a標籤特有的href屬性
+    因此這個類型太寬泛(不具體),無法操作href等a標籤特有的屬性或方法
+    使用類型斷言:</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">const</span> aLink = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;link&#x27;</span>) <span class="hljs-keyword">as</span> <span class="hljs-title class_">HTMLAnchorElement</span>
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.使用as關鍵字實現類型斷言</li>
+    <li>2.關鍵字as後面的類型是一個更加具體的類型(HTMLAnchorElement是HTMLElement的子類型)</li>
+  </ul>
+  <hr>
+  <h3 id="3-12字面量類型">3-12.字面量類型</h3>
+  <pre><code class="language-typescript"><span class="hljs-keyword">let</span> str1 = <span class="hljs-string">&#x27;hello ts&#x27;</span>
+<span class="hljs-keyword">const</span> str2 = <span class="hljs-string">&#x27;hello ts&#x27;</span>
+</code></pre>
+  <p>通過TS類型推論機制,可以得到答案</p>
+  <ul>
+    <li>1.變量str1類型為string</li>
+    <li>2.變量str2類型為hello ts</li>
+  </ul>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.str1是一個變量(let),他的值可以是任意字符串,所以類型為:string</li>
+    <li>2.str2是一個常量(const),他的值不能變化只能是hello ts,所以它的類型為:hello ts</li>
+  </ul>
+  <p><strong>注意</strong>:此處的'hello ts',就是一個字面量類型,也就是說某個特定的字符串也可以作為TS中的類型,除字符串外,任意JS字面量(比如:對象,數字等)都可以作為類型使用</p>
+  <p>使用模式:字面量類型配合聯合類型一起使用
+    使用場景:用來表示一組明確的可選值列表
+    比如,在貪吃蛇遊戲中,遊戲方向可選值只能是上,下,左,右中的任意一個</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">changeDirection</span>(<span class="hljs-params">direction: <span class="hljs-string">&#x27;up&#x27;</span> | <span class="hljs-string">&#x27;down&#x27;</span> | <span class="hljs-string">&#x27;left&#x27;</span> | <span class="hljs-string">&#x27;right&#x27;</span></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(direction);
+}
+</code></pre>
+  <p><strong>解釋</strong>:參數direction的值只能是up/down/lwft/right中的任意一個
+    優勢:相比於string類型,使用字面量類型更加精確,嚴謹</p>
+  <hr>
+  <h3 id="3-13枚舉">3-13.枚舉</h3>
+  <p>枚舉的功能類似於字面量類型+聯合類型組合的功能,也可以表示一組明確的可選值
+    枚舉:定義一組命名常量,它描述一個值,該值可以是這謝命名常量中的一個</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction</span> { <span class="hljs-title class_">Up</span>, <span class="hljs-title class_">Down</span>, <span class="hljs-title class_">Left</span>, <span class="hljs-title class_">Right</span> }
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">changeDirection1</span>(<span class="hljs-params">direction: Direction</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(direction);
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.使用enum關鍵字定義枚舉</li>
+    <li>2.約定枚舉名稱,枚舉中的值以大寫字母開頭</li>
+    <li>3.枚舉中的多個值之間通過,(逗號)分隔</li>
+    <li>4.定義好枚舉後,直接使用枚舉名稱作為類型注解</li>
+  </ul>
+  <p><strong>注意</strong>:形參direction的類型為枚舉Direction,那麼時參的值就應該是枚舉Direction成員的任意一個
+    訪問枚舉成員:</p>
+  <pre><code class="language-typescript"><span class="hljs-title function_">changeDirection1</span>(<span class="hljs-title class_">Direction</span>.<span class="hljs-property">Up</span>)
+</code></pre>
+  <p><strong>解釋</strong>:類似於JS中的對象,直接通過.(點)語法訪問枚舉成員</p>
+  <p>問題:把枚舉成員作為函數的實參,他的值是什麼
+    <strong>解釋</strong>:通過鼠標移入Direction.Up,可以看到枚舉成員Up的值為0
+    <strong>注意</strong>:枚舉成員是有值的,默認為:從0開始自增的數值
+  </p>
+  <p><strong>枚舉成員的值為數字的枚舉,稱為:數字枚舉</strong></p>
+  <p>也可以給枚舉中的成員初始化值</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction2</span> { <span class="hljs-title class_">Up</span> = <span class="hljs-number">10</span>, <span class="hljs-title class_">Down</span>, <span class="hljs-title class_">Left</span>, <span class="hljs-title class_">Right</span> }
+<span class="hljs-title class_">Down</span>-&gt;<span class="hljs-number">11</span>,<span class="hljs-title class_">Left</span>-&gt;<span class="hljs-number">12</span>,<span class="hljs-title class_">Right</span>-&gt;<span class="hljs-number">13</span>
+<span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction3</span> { <span class="hljs-title class_">Up</span> = <span class="hljs-number">2</span>, <span class="hljs-title class_">Down</span> = <span class="hljs-number">4</span>, <span class="hljs-title class_">Left</span> = <span class="hljs-number">6</span>, <span class="hljs-title class_">Right</span> = <span class="hljs-number">8</span> }
+</code></pre>
+  <p>字符串枚舉:枚舉成員的值是字符串</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction4</span> {
+  <span class="hljs-title class_">Up</span> = <span class="hljs-string">&#x27;Up&#x27;</span>,
+  <span class="hljs-title class_">Down</span> = <span class="hljs-string">&#x27;Down&#x27;</span>,
+  <span class="hljs-title class_">Left</span> = <span class="hljs-string">&#x27;Left&#x27;</span>,
+  <span class="hljs-title class_">Right</span> = <span class="hljs-string">&#x27;Right&#x27;</span>
+}
+</code></pre>
+  <p><strong>注意</strong>:字符串枚舉沒有自增長行為,因此,字符串中的每個成員必須有初始值</p>
+  <p>枚舉是TS為數不多的非JS類型級擴展(不僅僅是類型)的特性之一
+    因為:其他類型僅被當作類型,而枚舉不僅用作類型,還提供值(枚舉成員都是有值的)
+    也就是說,其他類型會在編譯為JS代碼時自動移除,而枚舉類型會被編譯為JS代碼</p>
+  <pre><code class="language-typescript"> <span class="hljs-comment">//TS EX:</span>
+  <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Direction</span> {
+  <span class="hljs-title class_">Up</span> = <span class="hljs-string">&#x27;Up&#x27;</span>,
+  <span class="hljs-title class_">Down</span> = <span class="hljs-string">&#x27;Down&#x27;</span>,
+  <span class="hljs-title class_">Left</span> = <span class="hljs-string">&#x27;Left&#x27;</span>,
+  <span class="hljs-title class_">Right</span> = <span class="hljs-string">&#x27;Right&#x27;</span>
+}
+</code></pre>
+  <pre><code class="language-javascript"><span class="hljs-comment">//JS EX:</span>
+  <span class="hljs-keyword">var</span> <span class="hljs-title class_">Direction</span>;
+  (<span class="hljs-keyword">function</span>(<span class="hljs-params">Direction</span>){
+      <span class="hljs-title class_">Dirction</span>[<span class="hljs-string">&quot;Up&quot;</span>]=<span class="hljs-string">&quot;Up&quot;</span>;
+      <span class="hljs-title class_">Dirction</span>[<span class="hljs-string">&quot;Down&quot;</span>]=<span class="hljs-string">&quot;Down&quot;</span>;
+      <span class="hljs-title class_">Dirction</span>[<span class="hljs-string">&quot;Left&quot;</span>]=<span class="hljs-string">&quot;Left&quot;</span>;
+      <span class="hljs-title class_">Dirction</span>[<span class="hljs-string">&quot;Right&quot;</span>]=<span class="hljs-string">&quot;Right&quot;</span>;
+  })(<span class="hljs-title class_">Direction</span> || (<span class="hljs-title class_">Direction</span>={}))
+</code></pre>
+  <p><strong>說明</strong>:枚舉 與 字面量類型+聯合類型組合 的功能類似,都是用來表示一組可選值列表
+    一般情況下,推薦使用 字面量類型+聯合類型組合 ,因為相比枚舉,更加直觀,簡潔,高效</p>
+  <hr>
+  <h3 id="3-14any類型">3-14.any類型</h3>
+  <p>原則:不推薦使用any(失去TS類型保護優勢)
+    因為當類型為any時,可以對該直進行任意操作,並且不會有代碼提示</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">let</span> <span class="hljs-attr">obj</span>: <span class="hljs-built_in">any</span> = { <span class="hljs-attr">x</span>: <span class="hljs-number">0</span> }
+obj.<span class="hljs-property">bar</span> = <span class="hljs-number">100</span>
+<span class="hljs-title function_">obj</span>()
+<span class="hljs-keyword">const</span> <span class="hljs-attr">n</span>: <span class="hljs-built_in">number</span> = obj
+</code></pre>
+  <p><strong>解釋</strong>:以上操作都不會有任何類型錯誤提示,即使可能存在錯誤
+    盡可能地避免使用any類型,除非臨時使用來&quot;避免&quot;書寫很長,很複雜的類型
+    其他隱式具有any類型的情況:</p>
+  <ul>
+    <li>1.聲明變量不提供類型也不提供默認值</li>
+    <li>2.函數參數不加類型</li>
+  </ul>
+  <p><strong>注意</strong>:因為不推薦any類型,所以這兩種情況都應該提供類型</p>
+  <hr>
+  <h3 id="3-15typeof">3-15.typeof</h3>
+  <p>TS也提供typeof操作符,可以在類型上下文中引用變量或屬性的類型(類型查詢)
+    使用場景:根据已有變量的值,獲取該值的類型,來簡化類型書寫</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX:</span>
+<span class="hljs-keyword">let</span> p = { <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">Y</span>: <span class="hljs-number">2</span> }
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">formatPoint</span>(<span class="hljs-params">point: { x: <span class="hljs-built_in">number</span>; y: <span class="hljs-built_in">number</span> }</span>) { }
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">formatPoint2</span>(<span class="hljs-params">point: <span class="hljs-keyword">typeof</span> p</span>) { }
+</code></pre>
+  <p><strong>解釋</strong>:使用typeof操作符來獲取變量p的類型,結果與第一種(對象字面量形式的類型)相同
+    typeof出現在類型註解的位置(參數名稱的冒號後面)所處的環境就在類型上下文(區別於JS代碼)
+    <strong>注意</strong>:typeof只能用來查詢變量或鼠性的類型,無法查詢其他形式的類型(比如,函數調用的類型)
+  </p>
+  <h1 id="4typescript高級類型">4.TypeScript高級類型</h1>
+  <p><strong>概述</strong>:TS中的高級類型有很多,重點學習以下高級類型:</p>
+  <ul>
+    <li>1.class類</li>
+    <li>2.類型兼容性</li>
+    <li>3.交叉類型</li>
+    <li>4.泛型和keyof</li>
+    <li>5.索引簽名類型和索引查詢類型</li>
+    <li>6.映射類型</li>
+  </ul>
+  <hr>
+  <h3 id="4-1class類">4-1.class類</h3>
+  <p>TS全面支持ES2015中引入的class關鍵字,並為其添加類型註解和其他語法(比如,可見性修飾符等)
+    class基本使用:</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> { }
+<span class="hljs-keyword">const</span> p = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>()
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.根据TS中的類型推斷,可以知道Person類的實例對象p的類型是Person</li>
+    <li>2.TS中的class,不僅提供class語法功能,也作為一種類型存在</li>
+  </ul>
+  <p>實例屬性初始化:</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person1</span> {
+  <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>
+  gender = <span class="hljs-string">&#x27;男&#x27;</span>
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.聲明成員age,類型為number(沒有初始值)</li>
+    <li>2.聲明成員gender,並設置初始值,此時可省略類型註解(TS類型推論為string類型)</li>
+  </ul>
+  <p>實例屬性</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Point1</span> {
+  <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-attr">gender</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">age: <span class="hljs-built_in">number</span>, gender: <span class="hljs-built_in">string</span></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">gender</span> = gender
+  }
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.成員初始化(比如,age:number)後,才可以通過this.age來訪問實例對象</li>
+    <li>2.需要為構造函數指定類型註解,否則會被隱式推斷為any</li>
+    <li>3.構造函數不需要返回值類型</li>
+  </ul>
+  <p><strong>實例方法</strong>:方法的類型註解(參數與返回值)與函數用法相同</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Point2</span> {
+  x = <span class="hljs-number">10</span>
+  y = <span class="hljs-number">10</span>
+  <span class="hljs-title function_">scale</span>(<span class="hljs-attr">n</span>: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">void</span> {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">x</span> *= n
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">y</span> *= n
+  }
+}
+</code></pre>
+  <p><strong>類的繼承</strong>
+    類繼承有兩種方式</p>
+  <ul>
+    <li>1.extends(繼承父類)</li>
+    <li>2.implement(實現接口)
+      <strong>說明:JS中只有extends,而implements是TS提供</strong>
+    </li>
+  </ul>
+  <pre><code class="language-typescript"><span class="hljs-comment">//EX1:</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal</span> {
+  <span class="hljs-title function_">move</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;走兩步&#x27;</span>);
+  }
+}
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Animal</span> {
+  name = <span class="hljs-string">&#x27;二哈&#x27;</span>
+  <span class="hljs-title function_">bark</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;旺旺!&#x27;</span>);
+
+  }
+}
+<span class="hljs-keyword">const</span> d = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Dog</span>()
+d.<span class="hljs-title function_">move</span>()
+d.<span class="hljs-property">name</span>
+d.<span class="hljs-title function_">bark</span>()
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.通過extends關鍵字實現繼承</li>
+    <li>2.子類Dog繼承父類Animal,則Dog的實例對象d就同時具有父類Animal和子類Dog的所有屬性和方法</li>
+  </ul>
+  <pre><code class="language-typescript"><span class="hljs-title class_">EX2</span>:
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Singable</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-title function_">sing</span>(): <span class="hljs-built_in">void</span>
+}
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Person4</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Singable</span> {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Jack&#x27;</span>
+  <span class="hljs-title function_">sing</span>(): <span class="hljs-built_in">void</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;唱歌&#x27;</span>);
+  }
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.通過implements關鍵字讓class實現接口</li>
+    <li>2.Person類實現接口Singable,意味著Person類中必須提供Singable接口中指定的所有方法和屬性</li>
+  </ul>
+  <p><strong>類成員的可見性</strong>
+    可以使用TS來控制class的方法或屬性對於class外的代碼是否可見
+    可見性修飾符包括</p>
+  <ul>
+    <li>1.public(公有的)</li>
+    <li>2.protected(受保護的)</li>
+    <li>3.private(私有的)</li>
+  </ul>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX(public):</span>
+<span class="hljs-comment">// public:表示公有的,公開的,公有成員可以被任何地方訪問,默認可見性</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal1</span> {
+  <span class="hljs-keyword">public</span> <span class="hljs-title function_">move</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Moving along!&#x27;</span>);
+  }
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.在類屬性或方法前面添加public關鍵字,用來修飾該屬性或方法是共有的</li>
+    <li>2.因為public是默認可見的,所以可以省略</li>
+  </ul>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX(protected):</span>
+<span class="hljs-comment">// protected:表示受保護的,僅對其聲明所在的類和子類中(非實例對象)可見</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal2</span> {
+  <span class="hljs-keyword">protected</span> <span class="hljs-title function_">move</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Moving along!&#x27;</span>);
+  }
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Dog1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Animal2</span> {
+  <span class="hljs-title function_">bark</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;汪!&#x27;</span>);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">move</span>()
+  }
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.在類屬性或方法前面添加protected關鍵字,用來修飾該屬性或方法是受保護的</li>
+    <li>2.在子類的方法內部可以通過this來訪問父類中受保護的成員,但是,對實例不可見</li>
+  </ul>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX(private):</span>
+<span class="hljs-comment">// private:表示私有的,只在當前類中可見,對實例對象以及子類也是不可見的</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal3</span> {
+  <span class="hljs-keyword">private</span> <span class="hljs-title function_">move</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Moving along!&#x27;</span>);
+  }
+  <span class="hljs-title function_">walk</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">move</span>()
+  }
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.在類屬性或方法前面添加private關鍵字,用來修飾該屬性或方法是私有的</li>
+    <li>2.私有的屬性或方法只在當前類中可見,對子類和實例對象也都是不可見的</li>
+  </ul>
+  <p><strong>readonly(只讀修飾符)</strong>
+    除了可見性修飾符之外,還有一個常見修飾符是:redonly
+    readonly:表示只讀,用來防止在構造函數之外對屬性進行賦值</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person5</span> {
+  <span class="hljs-keyword">readonly</span> <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span> = <span class="hljs-number">18</span>
+  <span class="hljs-keyword">readonly</span> age2 = <span class="hljs-number">18</span>
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">age: <span class="hljs-built_in">number</span></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age
+  }
+<span class="hljs-comment">//   在構造函數外不可修改readonly屬性</span>
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.使用readonly關鍵字修飾該屬性是只讀的,<strong>注意</strong>只能修飾屬性不能修飾方法</li>
+    <li>2.<strong>注意</strong>:屬性age後面的類型註解(比如此處的number)如果不加,則age的類型為18(字面量類型)</li>
+    <li>3.接口或者{}表示的對象類型,也可以使用readonly</li>
+  </ul>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">IPerson</span> {
+  <span class="hljs-keyword">readonly</span> <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>
+}
+<span class="hljs-keyword">let</span> <span class="hljs-attr">obj</span>: <span class="hljs-title class_">IPerson</span> = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Jack&#x27;</span>
+}
+</code></pre>
+  <hr>
+  <h3 id="4-2類型兼容性">4-2.類型兼容性</h3>
+  <p><strong>兩種類型系統:</strong></p>
+  <ul>
+    <li>1.Structural Type System(結構化類型系統)</li>
+    <li>2.Nominal Type System(標明類型系統)</li>
+  </ul>
+  <p>TS採用的是結構化類型系統,也叫做duck typing(鴨子類型),類型檢查關注的是值所具有的形狀
+    也就是說,在結構類型系統中,如果兩個對象具有相同的形狀,則認為它們屬於同一類型</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Point3</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Point2D</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">const</span> <span class="hljs-attr">p1</span>: <span class="hljs-title class_">Point3</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Point2D</span>()
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.Point3和Point2D是兩個不同名稱的類</li>
+    <li>2.變量p1的類型被顯示標注為Point3類型,但是,他的值卻是Point2D的實例,並且沒有類型錯誤</li>
+    <li>3.因為TS是結構化類型系統,只檢查Point和Point2D的結構是否相同(相同,都具有x和y兩個屬性,屬性類型也相同)</li>
+    <li>4.但是,如果在Nominal Type System中(比如,C#,Java等),他們是不同的類,類型無法兼容</li>
+  </ul>
+  <p><strong>注意</strong>:在結構化類型系統中,如果兩個對象具有相同的形狀,則認為他們屬於同一類型,這種說法並不準確
+    更準確的說法:對於對象類型來說,y的成員至少與x相同,則x兼容y(成員多的可以賦值給少的)</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Point4</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Point3D</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">const</span> <span class="hljs-attr">p2</span>: <span class="hljs-title class_">Point4</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Point3D</span>
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.Point3D的成員至少與Point4相同,則Point兼容Point3D</li>
+    <li>2.所以成員多的Point3D可以賦值給成員少的Point4</li>
+  </ul>
+  <p>除了class之外,TS中的其他類型也存在著互相兼容的情況,包括:1.接口兼容性,2.函數兼容性 等
+    接口之間的兼容性,類似於class</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">PointA</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">PointB</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">PointC</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">let</span> <span class="hljs-attr">pA</span>: <span class="hljs-title class_">PointA</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">pB</span>: <span class="hljs-title class_">PointB</span> = { <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span> }
+<span class="hljs-keyword">let</span> <span class="hljs-attr">pC</span>: <span class="hljs-title class_">PointC</span>
+pA = pB;
+<span class="hljs-comment">// class和interface之間也可以兼容</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">PointD</span> { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">let</span> <span class="hljs-attr">pD</span>: <span class="hljs-title class_">PointA</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PointD</span>
+</code></pre>
+  <p><strong>函數兼容性</strong>
+    函數之間兼容性比較複雜,需要考慮1.參數個數,2.參數類型,3.返回值類型</p>
+  <ul>
+    <li>1.參數個數:參數多的兼容參數少的(或者說,參數少的可以賦值給多的)
+      <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F1</span> = <span class="hljs-function">(<span class="hljs-params">a: <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F2</span> = <span class="hljs-function">(<span class="hljs-params">a: <span class="hljs-built_in">number</span>, b: <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">void</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f1</span>: <span class="hljs-variable constant_">F1</span> = <span class="hljs-function">(<span class="hljs-params">a</span>) =&gt;</span> { }
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f2</span>: <span class="hljs-variable constant_">F2</span> = f1
+</code></pre>
+      <strong>解釋</strong>:
+      <ul>
+        <li>1.參數少的可以賦值給參數多的,所以f1可以賦值給f2</li>
+        <li>2.數組forEach方法的第一個參數是回調函數,該示例中類型為:(value: string , index: number , array: string[]) =&gt; void</li>
+        <li>3.在JS中省略用不到的函數參數實際上是很常見的,這樣的使用方式,促成TS中函數類型之間的兼容性</li>
+        <li>4.並且因為回調函數是有類型的,所以TS會自動推導出參數item,index,array的類型
+          <br>
+        </li>
+      </ul>
+    </li>
+    <li>2.參數類型:相同位置的參數類型要相同(原始類型)或兼容(對象類型)
+      <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F3</span> = <span class="hljs-function">(<span class="hljs-params">a: <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F4</span> = <span class="hljs-function">(<span class="hljs-params">a: <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f3</span>: <span class="hljs-variable constant_">F3</span> = <span class="hljs-function">(<span class="hljs-params">a</span>) =&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span> }
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f4</span>: <span class="hljs-variable constant_">F4</span> = f3
+</code></pre>
+      <strong>解釋</strong>:函數類型F2兼容函數類型F1,因為F1和F2的第一個參數類型相同
+      <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> A1 { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">interface</span> A2 { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F5</span> = <span class="hljs-function">(<span class="hljs-params">p: A1</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F6</span> = <span class="hljs-function">(<span class="hljs-params">p: A2</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f5</span>: <span class="hljs-variable constant_">F5</span> = <span class="hljs-function">() =&gt;</span> { }
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f6</span>: <span class="hljs-variable constant_">F6</span> = f5
+</code></pre>
+      <strong>解釋</strong>:
+      <ul>
+        <li>1.<strong>注意</strong>:此處與接口兼容性衝突</li>
+        <li>2.技巧:將對象拆開,把每個屬性看做一個個參數,則參數少的可以賦值給參數多的
+          <br>
+        </li>
+      </ul>
+    </li>
+    <li>3.返回值類型:只須關注返回值類型本身即可
+      <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F7</span> = <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F8</span> = <span class="hljs-function">() =&gt;</span> <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f7</span>: <span class="hljs-variable constant_">F7</span> = <span class="hljs-function">() =&gt;</span> { <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span> }
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f8</span>: <span class="hljs-variable constant_">F8</span> = f7
+<span class="hljs-comment">// EX2:</span>
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F9</span> = <span class="hljs-function">() =&gt;</span> { <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> }
+<span class="hljs-keyword">type</span> <span class="hljs-variable constant_">F10</span> = <span class="hljs-function">() =&gt;</span> { <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">age</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f9</span>: <span class="hljs-variable constant_">F9</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">f10</span>: <span class="hljs-variable constant_">F10</span> = <span class="hljs-function">() =&gt;</span> { <span class="hljs-keyword">return</span> { <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">0</span> } }
+f9 = f10
+</code></pre>
+      <strong>解釋</strong>:
+      <ul>
+        <li>1.如果返回值類型是原始類型,此時兩個類型要相同</li>
+        <li>2.如果返回值類型是個對象類型,此時成員多的可以賦值給成員少的</li>
+      </ul>
+    </li>
+  </ul>
+  <hr>
+  <h3 id="4-3交叉類型">4-3.交叉類型</h3>
+  <p>功能類似於接口繼承(extends),用於組合督個類型為一個類型(常用於對象類型)</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Person6</span> { <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span> }
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Contact</span> { <span class="hljs-attr">phone</span>: <span class="hljs-built_in">string</span> }
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">PersonDetail</span> = <span class="hljs-title class_">Person6</span> &amp; <span class="hljs-title class_">Contact</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">obj1</span>: <span class="hljs-title class_">PersonDetail</span> = {
+  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;Jack&#x27;</span>,
+  <span class="hljs-attr">phone</span>: <span class="hljs-string">&#x27;123...&#x27;</span>
+}
+</code></pre>
+  <p><strong>解釋</strong>:使用交叉類型後,新的類型PersonDetail就同時具備了Person和Contact的所有屬性類型
+    相當於</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">PersonDetail</span> = { <span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">number</span>: <span class="hljs-built_in">string</span> }
+</code></pre>
+  <p>交叉類型(&amp;)和接口類型(extends)的對比:</p>
+  <ul>
+    <li>1.相同點:都可以實現對象類型的組合</li>
+    <li>2.不同點:兩種方式實現類型組合時,對於同名屬性之間,處裡類型衝突方式不同</li>
+  </ul>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> A {
+  <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">value: <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">string</span>
+}
+<span class="hljs-keyword">interface</span> B <span class="hljs-keyword">extends</span> A {
+  <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">value: <span class="hljs-built_in">string</span></span>) =&gt;</span> <span class="hljs-built_in">string</span>
+}
+
+<span class="hljs-keyword">type</span> C = A &amp; B
+</code></pre>
+  <p>說明:以上代碼,接口繼承會報錯(類型不兼容);交叉類型沒有報錯,可以簡單理解為:</p>
+  <pre><code class="language-typescript"><span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">valur: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span></span>) =&gt;</span> <span class="hljs-built_in">string</span>
+</code></pre>
+  <hr>
+  <h3 id="4-4泛型">4-4.泛型</h3>
+  <p>泛型是可以在保證類型安全前提下,讓函數等與多種類型一起工作,從而實現復用,常用於:函數,接口,class中
+    EX:(需求:創建個id函數,傳入什麼數據就返回數據本身)</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">id</span>(<span class="hljs-params">value: <span class="hljs-built_in">number</span></span>): <span class="hljs-built_in">number</span> { <span class="hljs-keyword">return</span> value }
+</code></pre>
+  <p>id(10)調用以上函數就會直接返回10本身,但是該函是只接受數值類型,無法用於其他類型
+    為了能讓函數能夠接受任意類型,可以將參數類型修改為any,但是這樣就失去TS類型保護,類型不安全</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">id1</span>(<span class="hljs-params">value: <span class="hljs-built_in">any</span></span>): <span class="hljs-built_in">any</span> { <span class="hljs-keyword">return</span> value }
+</code></pre>
+  <p>泛型在保證類型安全(不丟失類型訊息)的同時,可以讓函數等與多種不同的類型一起工作,靈活可復用
+    實際上,在C#和Java等編程語言,泛型都是用來實現可復用組件功能的主要工具之一</p>
+  <p><strong>創建泛型函數:</strong></p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">function</span> id2&lt;<span class="hljs-title class_">Type</span>&gt;(<span class="hljs-attr">value</span>: <span class="hljs-title class_">Type</span>): <span class="hljs-title class_">Type</span> { <span class="hljs-keyword">return</span> value }
+</code></pre>
+  <p><strong>解釋</strong></p>
+  <ul>
+    <li>1.語法:在函數名稱的後面添加&lt;&gt;(尖括號),尖括號中添加類型變量,比如此處的Type</li>
+    <li>2.類型變量Tpye,是一種特殊類型的變量,它處理類型而不是值</li>
+    <li>3.該類型變量相當於一個類型容器,能夠捕獲該用戶提供的類型(具體是什麼類型由用戶調用該函數時指定)</li>
+    <li>4.因為Type是類型,因此可以將其作為函數參數和返回值的類型,表示參數和返回值具有相同的類型</li>
+    <li>5.類型變量Type,可以是任意合法的變量名稱</li>
+  </ul>
+  <p><strong>調用泛型函數</strong>:</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">const</span> num = id2&lt;<span class="hljs-built_in">number</span>&gt;(<span class="hljs-number">10</span>)
+<span class="hljs-keyword">const</span> str = id2&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-string">&#x27;a&#x27;</span>)
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.語法:在函數名稱的後面添加&lt;&gt;(尖括號),尖括號中指定具體的類型,比如此處的number</li>
+    <li>2.傳入類型number後,這個類型就會被函數聲明時指定類型變量Type捕獲到</li>
+    <li>
+      3.此時,Type的類型就是number,所以函數id2參數和返回值的類型也都是number,同樣,如果傳入類型string,函數id2參數和返回值的類型就都是string,這樣,通過泛型就做到了讓id函數與多種不同的類型一起工作,實現了復用的同時保證類型安全
+    </li>
+  </ul>
+  <p><strong>簡化調用泛型函數</strong>:</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">let</span> num1 = <span class="hljs-title function_">id2</span>(<span class="hljs-number">10</span>)
+<span class="hljs-keyword">let</span> str1 = <span class="hljs-title function_">id2</span>(<span class="hljs-string">&#x27;10&#x27;</span>)
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.在調用泛型函數十,可以省略&lt;類型&gt;來簡化泛型函數的調用</li>
+    <li>2.此時,TS內部會採用一種較類型參數推斷的機制,來根據傳入實參自動推斷類型變量Type的類型</li>
+    <li>3.比如傳入實參10,TS會自動推斷變量num的類型number,並作為Type的類型</li>
+  </ul>
+  <p><strong>泛型約束</strong>:
+    默認情況下,泛型函數的類型變量Type可以代表多個類型,這導致無法訪問任何屬性
+    比如,id('a')調用函數實獲取參數的長度</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">function</span> id3&lt;<span class="hljs-title class_">Type</span>&gt;(<span class="hljs-attr">value</span>: <span class="hljs-title class_">Type</span>): <span class="hljs-title class_">Type</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(value.<span class="hljs-property">length</span>)
+  <span class="hljs-keyword">return</span> value
+}
+</code></pre>
+  <p><strong>解釋</strong>:Type可以代表任意類型,無法保證一定存在length屬性,比如number類型就沒有length
+    此時,就需要為泛型添加約束來收縮類型(縮窄類型取值範圍)
+    添加泛型約束收縮類型,主要有以下兩種方式:</p>
+  <ul>
+    <li>
+      <p>1.指定更加具體的類型</p>
+      <pre><code class="language-typescript"><span class="hljs-attr">EX</span>:
+<span class="hljs-keyword">function</span> id4&lt;<span class="hljs-title class_">Type</span>&gt;(<span class="hljs-attr">value</span>: <span class="hljs-title class_">Type</span>[]): <span class="hljs-title class_">Type</span>[] {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(value.<span class="hljs-property">length</span>);
+  <span class="hljs-keyword">return</span> value
+}
+</code></pre>
+      <p>比如將類型修改為Type<a href="Type%E9%A1%9E%E5%9E%8B%E7%9A%84%E6%95%B8%E7%B5%84"></a>,因為只要是數組就有length屬性,因此就可以訪問</p>
+    </li>
+    <li>
+      <p>2.添加約束</p>
+      <pre><code class="language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Ilength</span> { <span class="hljs-attr">length</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">function</span> id5&lt;<span class="hljs-title class_">Type</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Ilength</span>&gt;(<span class="hljs-attr">value</span>: <span class="hljs-title class_">Type</span>): <span class="hljs-title class_">Type</span> {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(value.<span class="hljs-property">length</span>)
+  <span class="hljs-keyword">return</span> value
+}
+<span class="hljs-title function_">id5</span>([<span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>])
+<span class="hljs-title function_">id5</span>(<span class="hljs-string">&#x27;111&#x27;</span>)
+</code></pre>
+      <p><strong>解釋</strong>:</p>
+      <ul>
+        <li>1.創建描述約束的接口Ilength,該接口要求提供length屬性</li>
+        <li>2.通過extends關鍵字使用該接口,為泛型(類型變量)添加約束</li>
+        <li>3.該約束表示:傳入的類型必須具有length屬性
+          <strong>注意</strong>:傳入的實參(比如,數組)只要有length屬性即可,也符合接口的類型兼容性
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p>泛型的類型變量可以有多個,並且類型變量之間還可以約束(比如,第二個類型變量是第一個類型變量約數)
+    比如創建一個函數來獲取對象中屬性的值</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">function</span> grtProp&lt;<span class="hljs-title class_">Type</span>, <span class="hljs-title class_">Key</span> <span class="hljs-keyword">extends</span> keyof <span class="hljs-title class_">Type</span>&gt;(<span class="hljs-attr">obj</span>: <span class="hljs-title class_">Type</span>, <span class="hljs-attr">key</span>: <span class="hljs-title class_">Key</span>) {
+  <span class="hljs-keyword">return</span> obj[key]
+}
+<span class="hljs-title function_">grtProp</span>({ <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;jack&#x27;</span>, <span class="hljs-attr">age</span>: <span class="hljs-number">18</span> }, <span class="hljs-string">&#x27;name&#x27;</span>)
+<span class="hljs-title function_">grtProp</span>(<span class="hljs-number">18</span>, <span class="hljs-string">&#x27;toFixed&#x27;</span>)
+<span class="hljs-title function_">grtProp</span>(<span class="hljs-string">&#x27;abc&#x27;</span>, <span class="hljs-string">&#x27;split&#x27;</span>)
+<span class="hljs-title function_">grtProp</span>(<span class="hljs-string">&#x27;abc&#x27;</span>, <span class="hljs-number">1</span>) <span class="hljs-comment">// 1 表示索引</span>
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.添加第二個類型變量Key,兩個類型變量之間使用(,)逗號分隔</li>
+    <li>2.keyof關鍵字接受一個對象類型,生成其鍵名稱(可能是字符串或數字)的聯合類型</li>
+    <li>3.本示例中keyof Type實際上獲取的是對象所有鍵的聯合類型,也就是:'name'|'age'</li>
+    <li>4.類型變量Key受Type約束,可以理解為:K只能是Type所有鍵中的任意一個,或者說只能訪問對象中存在的屬性</li>
+  </ul>
+  <p>泛型接口:
+    接口也可以配合泛型來使用,以增加其靈活性,增強復用性</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">IdFunc</span>&lt;<span class="hljs-title class_">Type</span>&gt; {
+  <span class="hljs-attr">id</span>: <span class="hljs-function">(<span class="hljs-params">value: Type</span>) =&gt;</span> <span class="hljs-title class_">Type</span>,
+  <span class="hljs-attr">ids</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-title class_">Type</span>[]
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-attr">obj2</span>: <span class="hljs-title class_">IdFunc</span>&lt;<span class="hljs-built_in">number</span>&gt; = {
+  <span class="hljs-title function_">id</span>(<span class="hljs-params">value</span>) { <span class="hljs-keyword">return</span> value },
+  <span class="hljs-title function_">ids</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>
+    ]
+  }
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.接口名稱的後面添加&lt;類型變量&gt;,這個接口就變成泛型接口</li>
+    <li>2.接口的類型變量,對街口中其他成員可見,也就是接口中所有成員都可以使用類型變量</li>
+    <li>3.使用泛型接口時,需要顯式指定具體類型(比如,此處的Idfunc<number>)</li>
+    <li>4.此時id方法的參數和返回值類型都是number;ids方法返回值類型是number[]</li>
+  </ul>
+  <p><strong>泛型類</strong>:
+    創建泛型類:</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">GenericNumber</span>&lt;<span class="hljs-title class_">NumType</span>&gt; {
+  <span class="hljs-attr">defaulValue</span>: <span class="hljs-title class_">NumType</span>
+  <span class="hljs-attr">add</span>: <span class="hljs-function">(<span class="hljs-params">x: NumType, y: NumType</span>) =&gt;</span> <span class="hljs-title class_">NumType</span>
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.類似於泛型接口,在class名稱後面添加&lt;類型變量&gt;,這個類就變成了泛型類</li>
+    <li>2.此處得add方法,採用箭頭函數型式的類型書寫方式</li>
+  </ul>
+  <pre><code class="language-typescript"><span class="hljs-keyword">const</span> myNum = <span class="hljs-keyword">new</span> <span class="hljs-title class_">GenericNumber</span>&lt;<span class="hljs-built_in">number</span>&gt;()
+myNum.<span class="hljs-property">defaulValue</span> = <span class="hljs-number">10</span>
+</code></pre>
+  <p>類似於泛型接口,在創建class實例時,在類名後面通過&lt;類型&gt;來指定明確的類型</p>
+  <p><strong>泛型工具類型</strong>:
+    TS內置一些常用的工具類型,來簡化TS中一些常見的操作
+    說明:它們都是基於泛型實現的(泛型適用於多種類型,更加通用),並且都是內置,可以直接在代碼中使用
+    主要學習:</p>
+  <ul>
+    <li>1.Partial&lt;Type&gt;</li>
+    <li>2.Readonly&lt;Type&gt;</li>
+    <li>3.Pick&lt;Type,keys&gt;</li>
+    <li>4.Record&lt;keys,Type&gt;</li>
+  </ul>
+  <hr>
+  <p>1.Partial&lt;Type&gt;-用來構造(創建)一個類型,將Type的所有類型設置為可選</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Props</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">children</span>: <span class="hljs-built_in">number</span>[]
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">PartialProps</span> = <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">Props</span>&gt;
+
+<span class="hljs-keyword">let</span> <span class="hljs-attr">p3</span>: <span class="hljs-title class_">Props</span> = {
+  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+  <span class="hljs-attr">children</span>: [<span class="hljs-number">1</span>]
+}
+<span class="hljs-keyword">let</span> <span class="hljs-attr">p4</span>: <span class="hljs-title class_">PartialProps</span> = {
+  <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;&#x27;</span>
+}
+</code></pre>
+  <p><strong>解釋</strong>:構造出來的新類型PartialProps結構和Props相同,但所有屬性都變為可選的</p>
+  <hr>
+  <p>2.Readonly&lt;Type&gt;-用來構造一個類型,將Type的所有屬性都設置為readonly(只讀)</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Props1</span> {
+ <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>
+ <span class="hljs-attr">children</span>: <span class="hljs-built_in">number</span>[]
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ReadonlyProps</span> = <span class="hljs-title class_">Readonly</span>&lt;<span class="hljs-title class_">Props1</span>&gt;
+**解釋**:構造出來的新類型<span class="hljs-title class_">ReadonlyProps</span>結構和<span class="hljs-title class_">Props</span>相同,但所有屬性都變為只讀的
+<span class="hljs-keyword">let</span> <span class="hljs-attr">readonlyProps</span>: <span class="hljs-title class_">ReadonlyProps</span> = {
+ <span class="hljs-attr">id</span>: <span class="hljs-string">&#x27;1&#x27;</span>,
+ <span class="hljs-attr">children</span>: [<span class="hljs-number">1</span>]
+}
+readonlyProps.<span class="hljs-property">id</span> = <span class="hljs-string">&#x27;2&#x27;</span>
+</code></pre>
+  <p>當重新給id屬性賦值時,就會報錯:因為 'id' 為唯讀屬性，所以無法指派至 'id'</p>
+  <hr>
+  <p>3.Pick&lt;Type,keys&gt;-從Type中選擇一組屬性來構造新類型</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Props2</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">title</span>: <span class="hljs-built_in">string</span>
+  <span class="hljs-attr">children</span>: <span class="hljs-built_in">number</span>[]
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">PickProps</span> = <span class="hljs-title class_">Pick</span>&lt;<span class="hljs-title class_">Props2</span>, <span class="hljs-string">&#x27;id&#x27;</span> | <span class="hljs-string">&#x27;title&#x27;</span>&gt;
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.Pick工具類型有兩個類型變量:1.表示選擇誰的屬性,2.表示選擇哪幾個屬性</li>
+    <li>2.其中第2個類型變量,如果只選擇一個則只傳入該屬性名即可</li>
+    <li>3.第二個類型變量傳入的屬性只能式第一個類型變量中存在的屬性</li>
+    <li>4.構造出來的新類型PickProps,只有id和title兩個屬性類型</li>
+  </ul>
+  <hr>
+  <p>4.Record&lt;keys,Type&gt;-構造一個對象類型,屬性鍵為Keys,屬性類型為Type</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">RecordObj</span> = <span class="hljs-title class_">Record</span>&lt;<span class="hljs-string">&#x27;a&#x27;</span> | <span class="hljs-string">&#x27;b&#x27;</span> | <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-built_in">string</span>[]&gt;
+<span class="hljs-keyword">let</span> <span class="hljs-attr">obj3</span>: <span class="hljs-title class_">RecordObj</span> = {
+ <span class="hljs-attr">a</span>: [<span class="hljs-string">&#x27;1&#x27;</span>],
+ <span class="hljs-attr">b</span>: [<span class="hljs-string">&#x27;2&#x27;</span>],
+ <span class="hljs-attr">c</span>: [<span class="hljs-string">&#x27;3&#x27;</span>]
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.Record工具類型有兩個類型變量:1.表示對象有哪些屬性,2.表示對象屬性的類型</li>
+    <li>2.購鍵的新對象類型RecordObj表使:這個對象有三個屬性分別為a/b/c,屬性值的類型都是string[]</li>
+  </ul>
+  <hr>
+  <h3 id="4-5索引簽名類型">4-5.索引簽名類型</h3>
+  <p>絕大多數情況下,我們都可以在使用對象前就確定對象的結構,並為對象添加準確的類型
+    使用的場景:當無法確定對象中有那些屬性(或者說對象中可以出現任意多個屬性),此時就用到索引簽名類型</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">AnyObject</span> {
+  [<span class="hljs-attr">key</span>: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">number</span> | <span class="hljs-built_in">string</span>
+}
+<span class="hljs-keyword">let</span> <span class="hljs-attr">obj4</span>: <span class="hljs-title class_">AnyObject</span> = {
+  <span class="hljs-attr">a</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">b</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-attr">c</span>: <span class="hljs-string">&#x27;a&#x27;</span>
+}
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.使用[key:string]來約束該接口中允許出現的屬性名稱,表示只要式string類型的屬性名稱,都可以出現在對象中</li>
+    <li>2.這樣,對象obj4中就可以出現任意多個屬性(比如,a,b等)</li>
+    <li>3.key只是一個佔位符,可以換成任意合法的變量名稱</li>
+    <li>4.隱藏的前置知識:JS中對象({})的鍵式string類型的</li>
+  </ul>
+  <hr>
+  <h3 id="4-6映射類型">4-6.映射類型</h3>
+  <p>基於舊類型創建新類型(對象類型),減少重複,提升開發效率
+    比如,類型PropKeys有x/y/z,另一個類型Type1中也有x/y/z並且類型相同</p>
+  <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">ProppKeys</span> = <span class="hljs-string">&#x27;x&#x27;</span> | <span class="hljs-string">&#x27;y&#x27;</span> | <span class="hljs-string">&#x27;z&#x27;</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Type1</span> = { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }
+使用映射類型來進行簡化
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Type2</span> = { [<span class="hljs-title class_">Key</span> <span class="hljs-keyword">in</span> <span class="hljs-title class_">ProppKeys</span>]: <span class="hljs-built_in">number</span> }
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.映射類型式基於索引簽名類型的,所以該語法類似於索引簽名類型,也使用了[]</li>
+    <li>2.Key in PropKeys表示Key可以是PropKeys聯合類型中的任意一個,類似於forin(let k in obj)</li>
+    <li>3.使用映射類型創建的新對象類型Type2和類型Type1結構完全相同</li>
+    <li>4.<strong>注意</strong>:映射類型只能在類型別名中使用,不能在接口中使用</li>
+  </ul>
+  <p>映射類型除了根據聯合類型創建新類型外,還可以根據對象類型來創建:</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Props3</span> = { <span class="hljs-attr">a</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">c</span>: <span class="hljs-built_in">boolean</span> }
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Type3</span> = { [key <span class="hljs-keyword">in</span> keyof <span class="hljs-title class_">Props3</span>]: <span class="hljs-built_in">number</span> }
+</code></pre>
+  <p><strong>解釋</strong>:</p>
+  <ul>
+    <li>1.先執行keyof Props3獲取到對象類型Props3中所有鍵的聯合類型即'a'|'b'|'c'</li>
+    <li>2.key in 就表示key可以是Props3中所有鍵名稱中的任意一個</li>
+  </ul>
+  <p><strong>索引查詢(訪問)類型</strong>
+    作用:用來查詢屬性的類型</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Props4</span> = { <span class="hljs-attr">a</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">c</span>: <span class="hljs-built_in">boolean</span> }
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">TypeA</span> = <span class="hljs-title class_">Props4</span>[<span class="hljs-string">&#x27;a&#x27;</span>]
+</code></pre>
+  <p><strong>解釋</strong>:Props['a']表示查詢類型Props中屬性'a'對應的類型number,所以TypeA的類行為number
+    <strong>注意</strong>:[]中的屬性必須存在於被查詢類型中,否則會報錯
+  </p>
+  <p>索引查詢類型的其他使用方式:同時查詢多個索引的類型</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">Props5</span> = { <span class="hljs-attr">a</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">c</span>: <span class="hljs-built_in">boolean</span> }
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">TypeAB</span> = <span class="hljs-title class_">Props5</span>[<span class="hljs-string">&#x27;a&#x27;</span> | <span class="hljs-string">&#x27;b&#x27;</span>]
+</code></pre>
+  <p><strong>解釋</strong>:使用字符串字面量的聯合類型,獲取屬性a和b對應的類型,結果為string|number</p>
+  <pre><code class="language-typescript"><span class="hljs-keyword">type</span> <span class="hljs-title class_">TypeC</span> = <span class="hljs-title class_">Props5</span>[keyof <span class="hljs-title class_">Props5</span>]
+</code></pre>
+  <p><strong>解釋</strong>:使用keyof操作符獲取Props5中所有鍵對應的類型,結果為string|number|boolean</p>
+  <h1 id="5typescript類型聲明文件">5.TypeScript類型聲明文件</h1>
+  <p><strong>概述</strong>:類型聲明文件:用來位已存在的JS庫提供類型聲明文件,這樣在TS項目中使用這些庫時,就像用TS一樣就會有代碼提示,類型保護等機制</p>
+  <ul>
+    <li>1.TS的兩種文件類型</li>
+    <li>2.類型聲明文件的使用說明</li>
+  </ul>
+  <hr>
+  <h3 id="5-1ts中的兩種文件類型">5-1.TS中的兩種文件類型</h3>
+  <ul>
+    <li>1.(.ts)文件:
+      <ul>
+        <li>1.既包含類型信息有可以執行代碼</li>
+        <li>2.可以被編譯成.js文件,然後執行代碼</li>
+        <li>3.用途:編寫程序代碼</li>
+      </ul>
+    </li>
+    <li>2.(.d.ts)文件:
+      <ul>
+        <li>1.只包含類型信息的類型聲明文件</li>
+        <li>2.不會生成.js文件,警用於提供類型信息</li>
+        <li>3.用途:為js提通類型信息</li>
+      </ul>
+    </li>
+  </ul>
+  <p>總結:.ts是implementation(代碼實現文件);.d.ts是declaration(類型聲明文件)
+    如果要為JS庫提供類型信息,要使用.d.ts文件</p>
+  <hr>
+  <h3 id="5-2類型聲明文件的使用說明">5-2.類型聲明文件的使用說明</h3>
+  <p>使用已有的類型聲明文件:</p>
+  <ul>
+    <li>1.內置類型聲明文件</li>
+    <li>2.第三方庫類型聲明文件</li>
+  </ul>
+  <p>1.內置聲明文件:TS為JS運行時可用的縮有標準化內置API都提供了聲明文件
+    比如,在使用數組時,數組所有方法都會有對應的代碼提示以及類型信息</p>
+  <pre><code class="language-typescript">(method)<span class="hljs-title class_">Array</span>&lt;<span class="hljs-built_in">number</span>&gt;.<span class="hljs-title function_">forEach</span>(<span class="hljs-attr">callbackfn</span>: <span class="hljs-function">(<span class="hljs-params">value: <span class="hljs-built_in">number</span>, index: 
+<span class="hljs-built_in">number</span>, array: <span class="hljs-built_in">number</span>[]</span>) =&gt;</span> <span class="hljs-built_in">void</span>, thisArg ?: <span class="hljs-built_in">any</span>): <span class="hljs-built_in">void</span>
+</code></pre>
+  <p>實際上這都是TS提供的內置聲明文件
+    可以通過ctrl+鼠標左鍵來查看內置類型聲明文件內容
+    比如,查看forEach方法的類型聲明,在VSCode中會自動跳轉到lib.es5.d.ts類型聲明文件中
+    當然,像window,document等BOM,DOM API也都有相應的類型聲明(lib.dom.d.ts)</p>
+  <p>2.第三方庫類型聲明文件:目前,幾乎所有常用的第三方庫都有相應的類型聲明文件
+    第三方庫的類型聲明文件有兩種存在形式:</p>
+  <ul>
+    <li>1.庫自帶類型聲明文件</li>
+    <li>2.由DefinitelyTyped提供</li>
+  </ul>
+  <p>1.庫自帶類型聲明文件,比如:Axios
+    正常情況下導入該庫,TS就會自動加在庫自己的類型聲明文件,以提供該庫的類型聲明</p>
+  <p>2.由DefinitelyTyped提供
+    DefinitelyTyped是一個github倉庫,用來提供高質量TypeScript類型聲明
+    可以通過npm/yarn來下載該倉庫提供的TS類型聲明包,這些包的名稱格是為:@types/*
+    比如:@types/react,@types/lodash等
+    說明:在實際項目開發時,如果你使用的第三方庫沒有自帶聲明文件,VSCode會給出明確的提示
+    解釋:當安裝@types/*類型聲明包後,TS也會自動加載該類聲明包,以提供該庫的類型聲明</p>
+  <p><strong>創建自己的類型聲明文件</strong>:</p>
+  <ul>
+    <li>1.項目內共享類型
+      如果多個.ts文件中都用到同一個類型,此時可以創鍵.d.ts文件提供該類型,時線類型共享
+      操作步驟:
+      <ul>
+        <li>1.創建index.d.ts類型聲明文件(名稱自取)</li>
+        <li>2.創建需要共享的類型,並使用export導出(TS中的類型也可以使用import/export實現模塊化功能)</li>
+        <li>3.在需要使用共享類型的.ts文件中,通過import導入即可(.d.ts後綴號導入時,直接省略)
+          <pre><code class="language-typescript"><span class="hljs-comment">// EX:</span>
+<span class="hljs-comment">// 導出</span>
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Props</span> = { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span> }
+<span class="hljs-keyword">export</span> { <span class="hljs-title class_">Props</span> }
+<span class="hljs-comment">// 導入</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Props</span> } <span class="hljs-keyword">from</span> ./index
+</code></pre>
+        </li>
+      </ul>
+    </li>
+    <li>2.為已有的JS文件提供類型聲明
+      說明:TS項目中也可以使用.js文件,在導入.js文件時,TS會自動加載與.js同名的.d.ts文件,以提供類型聲明
+      <strong>declare關鍵字</strong>:用於類型聲明,為其他地方(比如,.js文件)以存在的變量聲明類型,而不是創鍵一個新的變量
+      <ul>
+        <li>1.對於type,interface等這些明確就是TS類型的(只能在TS中使用的),可以省略 declare關鍵字</li>
+        <li>2.對於let,functio等具有雙重含義(在JS,TS中都能使用),應該使用declare關鍵字,明確指定此處用於類型聲明</li>
+      </ul>
+    </li>
+  </ul>
+  <pre><code class="language-javascript"><span class="hljs-comment">// JS</span>
+<span class="hljs-keyword">let</span> count = <span class="hljs-number">10</span>
+<span class="hljs-keyword">let</span> songName = <span class="hljs-string">&#x27;痴心絕對&#x27;</span>
+<span class="hljs-keyword">let</span> position = {
+  <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">y</span>: <span class="hljs-number">0</span>
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">x, y</span>) {
+  <span class="hljs-keyword">return</span> x + y
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">changeDirection</span>(<span class="hljs-params">direction</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(direction)
+}
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">fomarPoint</span> = point =&gt; {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;當前座標:&#x27;</span>, point)
+}
+
+<span class="hljs-keyword">export</span> { count, songName, position, add, changeDirection, fomarPoint }
+</code></pre>
+  <pre><code class="language-typescript"><span class="hljs-comment">// TS</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">let</span> <span class="hljs-attr">count</span>: <span class="hljs-built_in">number</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">let</span> <span class="hljs-attr">songName</span>: <span class="hljs-built_in">string</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Point</span> {
+  <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>
+  <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span>
+}
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">let</span> <span class="hljs-attr">position</span>: <span class="hljs-title class_">Point</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">x: <span class="hljs-built_in">number</span>, y: <span class="hljs-built_in">number</span></span>): <span class="hljs-built_in">number</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">changeDirection</span>(<span class="hljs-params">
+  direction: <span class="hljs-string">&#x27;up&#x27;</span> | <span class="hljs-string">&#x27;down&#x27;</span> | <span class="hljs-string">&#x27;left&#x27;</span> | <span class="hljs-string">&#x27;right&#x27;</span>
+</span>): <span class="hljs-built_in">void</span>
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">FomarPoint</span> = <span class="hljs-function">(<span class="hljs-params">point: Point</span>) =&gt;</span> <span class="hljs-built_in">void</span>
+<span class="hljs-keyword">declare</span> <span class="hljs-keyword">const</span> <span class="hljs-attr">fomarPoint</span>:<span class="hljs-title class_">FomarPoint</span>
+
+<span class="hljs-keyword">export</span> { count, songName, position, add, changeDirection, fomarPoint }
+</code></pre>
+
+
+
+</body>
+
+</html>
